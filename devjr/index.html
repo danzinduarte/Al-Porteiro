@@ -1,0 +1,89 @@
+<!doctype html>
+<html ng-app="app">
+    <head>
+        <base href="/">
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>Dominus :: Portal condomino</title>        
+
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700italic,700,900,900italic'
+              rel='stylesheet' type='text/css'>
+
+        <!-- Angular Material style sheet -->
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.css">
+
+
+        <!-- Toast -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+        <!-- Bootstrap-->
+        <link rel="stylesheet"  type="text/css" href="lib/bootstrap/bootstrap.css">
+        
+        <link rel="stylesheet"  type="text/css" href="assets/estilo.css">
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">       
+    </head>
+
+    <!--[if lt IE 10]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">Atualize seu navegador
+    </a> para uma melhor experiência.</p>
+    <![endif]-->
+
+    <body class="plano-fundo">        
+        
+        <div id="main" class="animate-slide-up" ui-view="main" layout="column">
+                            
+        </div>
+        
+    </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular-resource.js"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular-messages.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>
+    <script src="https://unpkg.com/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
+
+    <!-- TOASTR notificador -->
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js" 
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <!-- LocalStorage -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
+    <!-- mascaras -->
+    <script type="text/javascript" src="./lib/input-masks/releases/angular-input-masks-standalone.min.js"></script>    
+
+    <!-- Nossa aplicacao  -->
+    <script type="text/javascript" src="./visita/visita.module.js"></script>
+    <script type="text/javascript" src="./visita/visita-lista.controller.js"></script>  
+
+    <script>      
+        
+        angular.module('app', 
+            [   'ngMaterial', 
+                'ngMessages', 
+                'ngResource',
+                'ui.utils.masks',
+                'ui.router',
+
+                'app.visita'
+             ]);
+
+    </script>
+    
+    <script type="text/javascript" src="./index.config.js"></script>
+    <script type="text/javascript" src="./index.route.js"></script>
+    <script type="text/javascript" src="./index.api.js"></script>
+
+    
+    
+    
+    
+</html>

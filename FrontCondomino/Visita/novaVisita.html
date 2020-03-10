@@ -1,0 +1,181 @@
+<html>
+<body>    
+<md-dialog aria-label="Mango (Fruit)" style="max-width: 100%;max-height: 100%;">  
+   
+        <md-toolbar>
+          <div class="md-toolbar-tools" style="background-color: coral;">
+            <h2>Agendamento de visita</h2>
+            <span flex></span>
+            <!--<md-button class="md-icon-button" ng-click="cancel()">
+              <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>-->
+          </div>
+        </md-toolbar>
+        <md-dialog-content style="max-width:1000px;max-height:1000px;">
+        <form name="vm.visitaForm">
+            <md-content class="md-padding">
+                <div layout="row">    
+                    <md-input-container flex>
+                        <label>Data Reserva</label>
+                        <md-datepicker type="date" name="reserva" required ng-model="vm.dataHoraReserva"> 
+                        <div ng-messages="vm.visitaForm.reserva.$error">
+                            <div ng-message="required">Este campo é obrigatório</div>
+                        </div>	             
+                    </md-input-container>
+                    <md-input-container flex>
+                            <label>Hora Reserva</label>
+                            <input type="time" name="horaReserva" required ng-model="vm.horaReserva"  min="00:00" max="23:59"> 
+                            <div ng-messages="vm.visitaForm.horaReserva.$error">
+                                <div ng-message="required">Este campo é obrigatório</div>
+                            </div>	             
+                    </md-input-container>
+                </div>
+               
+                <div layout="row">                    
+                    <img src="./img/user.svg" class="contact">                
+                    <md-autocomplete flex 
+                        ng-disabled="valor"
+                        md-input-name="autocompleteField"
+                        md-input-minlength="1"
+                        md-input-maxlength="30"
+                        md-no-cache="false"
+                        md-selected-item="vm.query.item"
+                        md-search-text="vm.query.text"
+                        md-items="convidado in vm.dsConvidado.data | filter: vm.query.text"
+                        md-item-text="convidado.pessoa.nome"
+                        md-require-match
+                        md-floating-label="Visitante">
+                    <md-item-template>
+                        <span md-highlight-text="vm.query.text">{{convidado.pessoa.nome}}</span>
+                    </md-item-template>
+                    <div ng-messages="vm.visitaForm.autocompleteField.$error" ng-if="vm.visitaForm.autocompleteField.$touched">
+                        <div ng-message="required">Por favor insira uma pessoa</div>
+                        <div ng-message="md-require-match">Por favor selecione uma pessoa existente</div>
+                        <div ng-message="minlength">Your entry is not long enough.</div>
+                        <div ng-message="maxlength">Your entry is too long.</div>
+                    </div>                    
+                    </md-autocomplete>
+                </div>               
+               
+                <div layout="row">   
+                    <img src="./img/list.svg" class="contact">
+                    <md-input-container flex>
+                        <label>Observaçoes</label>
+                        <input type="observacao" name="observacao"  ng-model="vm.condominoObservacao"> 
+                        <div ng-messages="vm.visitaForm.observacao.$error">
+                            <div ng-message="required">Este campo é obrigatório</div>                           
+                        </div>                
+                    </md-input-container>
+                </div>
+                <div layout="row">  
+                    <md-content>
+                        <md-tabs md-dynamic-height md-border-bottom>
+                          <md-tab label="Favoritos">
+                            <md-content class="md-padding" layout="row">
+                              <div layout="column" ng-repeat="convidados in vm.dsConvidado.data">
+                                <md-card class="md" ng-if="convidados.favorito">
+                                    <div layout="row" ng-click="vm.carregaCard(convidados)" class="cursor">
+                                      <img src="img/convidado.svg" class="md-card-image">
+                                      <span class="negrito" style="text-align: center">{{convidados.pessoa.nome}}</span>
+                                    </div>                                  
+                                    <md-card-actions layout="row" layout-align="center center" >
+                                      <md-button class="md-icon-button" aria-label="Favorite">
+                                        <md-icon md-svg-icon="img/star.svg"></md-icon>
+                                      </md-button>
+                                    </md-card-actions>
+                                </md-card>
+                              </div> 
+                            </md-content>
+                          </md-tab>
+                          <md-tab label="Visitantes">
+                            <md-content class="md-padding">
+                                <div class="mydiv">
+                                    <md-content style="height: 80%; background: transparent">
+                                      <md-card class="row-card md-whiteframe-20dp" ng-repeat="convidados in vm.dsConvidado.data">
+                                        <div layout="row">
+                                            <div layout="row" flex="20" layout-align="center center">
+                                                <md-icon md-svg-src="img/convidado.svg" style="width: 64px; height: 64px;"></md-icon>
+                                            </div>
+                              
+                                            <div layout="column" flex>
+                                                <div layout="row">
+                                                  <span flex></span>
+                                                  
+                                                  <md-button class="md-icon-button" ng-if="!convidados.favorito">
+                                                      <img src="img/starUn.svg"  style="width: 24;">                      
+                                                  </md-button>
+                                                  
+                                                  <md-menu>
+                                                      <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
+                                                          <img src="img/mote_vert.png" >                      
+                                                      </md-button>
+                                                      <md-menu-content width="3">
+                                                        <md-menu-item>
+                                                          <md-button ng-click="vm.excluiPorteiro($event,porteiro)"> Excluir </md-button>
+                                                        </md-menu-item>
+                                                      </md-menu-content>
+                                                  </md-menu>
+                              
+                                                </div>
+                              
+                                                <div layout="column" layout-align="start start">
+                                                    <span class="font-size-18 texto-cinza-medio negrito">{{convidados.pessoa.nome}}</span>
+                                                    <span class="font-size-16 texto-cinza-claro negrito">{{convidados.pessoa.digital}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                          
+                                    </md-card>
+                              
+                                    </md-content>
+                                  
+                                  </div>
+                            </md-content>
+                          </md-tab>
+                        </md-tabs>
+                      </md-content>
+                    
+                </div>              
+                
+                </md-content>    
+          </form>    
+        </md-dialog-content>
+    
+        <md-dialog-actions layout="row">
+          
+          <span flex></span>
+          <md-button class="md-warn md-raised" ng-click="vm.cancelar()" >
+            Cancelar
+          </md-button>
+          <md-button class="md-primary md-raised"  ng-click="vm.salvar()" style="margin-right:20px;" ng-disabled="vm.visitaForm.$invalid" >
+            Salvar
+          </md-button>
+        </md-dialog-actions>
+        
+        
+
+        
+      
+  </md-dialog>  
+  <script type="text/javascript" src="../lib/input-masks/releases/angular-input-masks-standalone.min.js"></script>    
+
+
+  <script>      
+    
+        angular.module('appAloPorteiro', ['ngMaterial', 'ngMessages', 'ngResource','ui.utils.masks','ui.utils.masks.global']);
+    
+    </script>
+
+  
+</body>
+</html> 
+
+
+  
+  
+  
+  
+  
+    
+                
+  
