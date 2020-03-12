@@ -1,0 +1,26 @@
+{
+  "name": "cadastro_de_restaurante",
+  "version": "0.0.1alpha",
+  "private": false,
+  "scripts": {
+    "start": "node ./www"
+  },
+  "dependencies": {
+    "atob": "^2.0.3",
+    "bluebird": "3.4.7",
+    "body-parser": "^1.19.0",
+    "btoa": "^1.1.2",
+    "cookie-parser": "^1.4.3",
+    "debug": "^3.1.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.4.0",
+    "moment-timezone": "^0.5.13",
+    "morgan": "^1.9.1",
+    "mssql": "^4.2.3",
+    "pg": "6.1.2",
+    "pg-hstore": "2.3.2",
+    "pg-promise": "^6.1.2",
+    "sequelize": "3.30.2",
+    "sequelize-cli": "2.5.1"
+  }
+}

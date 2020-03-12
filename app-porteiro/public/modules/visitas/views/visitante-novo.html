@@ -1,0 +1,104 @@
+<form name="vm.form">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2 class="texto-branco">Novo Visitante</h2>
+        <span flex></span>
+    </div>
+  </md-toolbar>       
+    <br/>
+      <md-content class="md-no-momentum">
+
+          <md-input-container class="md-block">
+            <label>Nome</label>
+              <md-tooltip>Usuário</md-tooltip>
+                <md-icon md-svg-src="assets/img/user.svg"></md-icon>
+                  <input ng-init="vm.dataset.pessoa.nome = vm.nome_Convidado" ng-model="vm.dataset.pessoa.nome" ng-value= "vm.nome_Convidado"  type="text" ng-required="true">
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <md-tooltip>CPF</md-tooltip>
+              <md-icon md-svg-src="assets/img/cpf.svg" class="email"></md-icon>
+                <input  name="cpf" ng-model="vm.dataset.pessoa.cpf"  type="text" placeholder="CPF" required ui-br-cpf-mask>
+                  <div ng-messages="vm.form.cpf.$error">
+                    <div ng-message="required">Informe o CPF</div>
+                    <div ng-message="cpf">CPF Inválido</div>
+                  </div>
+          </md-input-container>
+
+          <div layout="row">
+            
+            <md-input-container class="md-block data-picker-alinhado-esquerda" >
+              <label>Nascimento</label>
+                <md-datepicker ng-model="vm.dataset.pessoa.nascimento" md-open-on-focus ng-required="true"></md-datepicker>
+            </md-input-container>
+
+           <span flex></span>
+            <md-tooltip>Condômino</md-tooltip>
+              <md-icon md-svg-src="assets/img/user.svg" class="user"></md-icon>
+                <md-autocomplete required  ng-disabled="vm.dataset.condomino_Id"
+                  ng-init= "vm.query.text=vm.dataset.condomino.pessoa.nome"
+                  md-selected-item="vm.query.item"
+                  md-input-maxlength="50" 
+                  md-search-text="vm.query.text"
+                  md-items="condomino in vm.pesquisaCondomino(vm.query.text)"
+                  md-item-text="condomino.pessoa.nome"
+                  md-floating-label="Condômino">
+                    
+                  <md-item-template>
+                    <span md-highlight-text="vm.query.text">{{condomino.pessoa.nome}}</span>
+                  </md-item-template>
+                </md-autocomplete>
+          </div>
+    
+          <div layout="column">
+            <div layout="row">
+              <md-input-container md-no-float class="md-block" flex>
+                <md-tooltip>Logradouro</md-tooltip>
+                  <md-icon md-svg-src="assets/img/logradouro.svg" style="display:inline-block;"></md-icon>
+                    <input ng-model="vm.dataset.endereco.logradouro" type="text" placeholder="Logradouro" ng-required="true">  
+              </md-input-container>
+             
+              <md-input-container md-no-float class="md-block" flex>
+                <md-tooltip>Número</md-tooltip>
+                  <md-icon md-svg-src="assets/img/numero.svg" style="display:inline-block;"></md-icon>
+                    <input ng-model="vm.dataset.endereco.numero" type="number" placeholder="Número" ng-required="true">
+              </md-input-container>
+
+              <md-input-container md-no-float class="md-block" flex>
+                <md-tooltip>Bairro</md-tooltip>
+                  <md-icon md-svg-src="assets/img/bairro.svg" style="display:inline-block;"></md-icon>
+                    <input ng-model="vm.dataset.endereco.bairro" type="text" placeholder="Bairro" ng-required="true">
+              </md-input-container>
+
+              <md-input-container md-no-float class="md-block" flex>
+                <md-tooltip>Cidade</md-tooltip>
+                  <md-icon md-svg-src="assets/img/cidade.svg" style="display:inline-block;"></md-icon>
+                    <input ng-model="vm.dataset.endereco.cidade" type="text" placeholder="Cidade" ng-required="true">
+              </md-input-container>
+
+              <md-input-container md-no-float class="md-block" flex>
+                <md-tooltip>Estado</md-tooltip>
+                  <md-icon md-svg-src="assets/img/estado.svg" style="display:inline-block;"></md-icon>
+                    <label>Estado</label>
+                      <md-select ng-model="vm.dataset.endereco.uf" flex>
+                        <md-option ng-repeat="estado in vm.estados" ng-value="estado.abbrev">
+                          {{estado.abbrev}}
+                        </md-option>
+                      </md-select>
+              </md-input-container>
+
+            </div>
+          </div>
+
+      </md-content>  
+      
+        <div layout="row" layout-align="center center">
+          <md-button type="reset" class="md-warn">Limpar</md-button>
+            <md-button type="submit" ng-click="vm.form.$valid && vm.salvaVisitante()" class="md-fab md-primary">
+              <md-tooltip>Salvar</md-tooltip>
+                <img ng-src="assets/img/save.svg" class="button-login">
+          </md-button>
+        </div>
+</form>
+  
+        

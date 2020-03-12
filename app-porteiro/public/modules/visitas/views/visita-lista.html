@@ -1,0 +1,110 @@
+<div layout="column" flex layout-fill>
+  <div layout="row" layout-align="start">
+    <md-button class="md-raised" ng-click="vm.novoConvidado()" aria-label="Nova Visita">
+      <md-icon md-svg-src="assets/img/add.svg"></md-icon>
+    </md-button>
+    <span flex></span>
+
+    <md-fab-speed-dial md-open="vm.isOpen" md-direction="{{vm.selectedDirection}}" class="md-scale">
+      <md-fab-trigger>
+        <md-button aria-label="menu" class="md-fab md-warn">
+          <md-icon md-svg-src="assets/img/menu.svg"></md-icon>
+        </md-button>
+      </md-fab-trigger>
+       <md-fab-actions>
+         <md-button ng-click="vm.filtraVisita('Liberada')" aria-label="Confirmadas" class="md-fab md-raised md-mini">
+           <md-icon md-svg-src="assets/img/Liberada.svg" aria-label="Twitter"></md-icon>
+         </md-button>
+         <md-button ng-click="vm.filtraVisita('Negada')" aria-label="Negadas" class="md-fab md-raised md-mini">
+           <md-icon md-svg-src="assets/img/Negada.svg" aria-label="Google Hangout"></md-icon>
+         </md-button>
+         <md-button ng-click="vm.filtraVisita('Cancelada')" aria-label="Negadas" class="md-fab md-raised md-mini">
+          <md-icon md-svg-src="assets/img/Cancelada.svg" aria-label="Google Hangout"></md-icon>
+        </md-button>
+        <md-button ng-click="vm.filtraVisita('')" aria-label="Todas" class="md-fab md-raised md-mini">
+          <md-icon md-svg-src="assets/img/visitas-todas.svg" aria-label="Google Hangout"></md-icon>
+        </md-button>
+       </md-fab-actions>
+    </md-fab-speed-dial>    
+  </div>
+
+  <div layout="row">
+    <md-icon md-svg-src="assets/img/user.svg" class="user"></md-icon>
+          <md-autocomplete required class="autocomplete"
+            md-selected-item="vm.query.item"
+            md-input-maxlength="50" 
+            md-search-text="vm.query.text"
+            md-selected-item-change="vm.dados(pessoa)"
+            md-items="condomino in vm.carregaCondomino(vm.query.text)"
+            md-item-text="condomino.pessoa.nome"
+            md-floating-label="Nome">
+              <md-item-template>
+                <span md-highlight-text="vm.query.text">{{condomino.pessoa.nome}}</span>
+              </md-item-template>
+          </md-autocomplete>
+
+          <md-button ng-click="vm.pesquisaVisita(vm.query.text)">
+            <md-icon md-svg-src="assets/img/search.svg"></md-icon>
+          </md-button>
+          <span flex></span>
+  </div>
+
+  <div layout="row" layout-align="end end">
+      <span>Pesquisando {{vm.query.text ? vm.query.text : null}} em: {{vm.situacao ? vm.situacao : 'Todas'}}</span>
+  </div>
+    <div>
+      <div layout="row" layout-align=" center" ng-if="(vm.dataset | filter: vm.situacao).length == 0">
+        <span class="notFound">Nenhuma visita encontrada!</span>
+        <br>
+        <img ng-src="assets/img/not-found.svg"  class="img-404">
+      </div>
+      <md-card class="row-card md-whiteframe-20dp" ng-repeat="visita in vm.dataset | filter: vm.situacao">
+         <div layout="row" ng-if="visita">
+           <div layout="row" flex="20" layout-align="center center">
+             <img ng-src="assets/img/{{visita.situacao}}.svg" class="img-md-card">
+               </div>
+                 <div layout="column" flex>
+                   <div layout="row">
+                     <span flex></span>
+                       <md-menu>
+                         <md-button class="md-icon-button" ng-click="$mdMenu.open($event)" ng-show="!visita.pessoa_Id">
+                          <md-icon md-svg-src="assets/img/warning.svg"></md-icon>                       
+                            </md-button>
+                              <md-menu-content width="3">
+                                <md-menu-item>
+                                 <md-button ng-click="vm.novoVisitante(visita)">Cadastrar Visitante </md-button>
+                                </md-menu-item>
+                              </md-menu-content>
+                      </md-menu>
+                         <md-menu>
+                           <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
+                              <md-tooltip>Ver Mais</md-tooltip>
+                             <md-icon md-svg-src="assets/img/more-geen.svg"></md-icon>                      
+                           </md-button>
+                             <md-menu-content width="3">
+                               <md-menu-item>
+                                 <md-button ng-click="vm.finalizarVisita(visita.id)" ng-disabled="visita.situacao != 'Agendada'"> Finalizar </md-button>
+                               </md-menu-item>
+                               <md-menu-item>
+                                  <md-button ng-click="vm.detalharVisita(visita.id)"> Ver Mais </md-button>
+                                </md-menu-item>
+                             </md-menu-content>
+                             
+                         </md-menu>
+                   </div>
+                     <div layout="column" layout-align="start start">
+                       <span class="font-size-18 texto-marcador negrito">Convidado: {{visita.nome_Convidado}}</span>
+                       <span class="font-size-18 texto-marcador negrito">Condomino: {{visita.condomino.pessoa.nome}}</span>
+                       <span class="font-size-16 texto-branco">Agendamento: {{visita.data_Hora_Reserva | date : 'dd/MM/yyyy'}}</span>
+                       <span class="font-size-16 texto-branco">Horário: {{visita.data_Hora_Reserva | date : 'HH:mm'}}</span>
+                       <span class="font-size-16 texto-branco">Validade: {{visita.data_Hora_Expiracao | date : 'dd/MM/yyyy'}}</span>
+                       <span class="font-size-16 texto-branco">Validade: {{visita.data_Hora_Expiracao | date : 'HH:mm'}}</span>
+                       <span class="font-size-16 texto-branco" ng-if="visita.portaria_Observacao">Observação Portaria: {{visita.portaria_Observacao}}</span>
+                       <span class="font-size-16 texto-branco">Situação: {{visita.situacao}}</span>
+                     </div>
+                </div>
+              </div>
+        </md-card>
+    </div>
+</div> 
+    
